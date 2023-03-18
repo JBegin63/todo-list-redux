@@ -3,7 +3,7 @@ import TodoItem from './TodoItem';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTodosAsync } from '../redux/todoSlice';
 
-export const TodoList = () => {
+const TodoList = () => {
     const dispatch = useDispatch();
     const todos = useSelector((state) => state.todos);
     useEffect(() => {
@@ -23,3 +23,5 @@ export const TodoList = () => {
         </ul>
     )
 }
+
+export default TodoList
