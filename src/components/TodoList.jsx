@@ -1,28 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 import TodoItem from './TodoItem';
-import useStore from '../zustand/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { getTodosAsync } from '../redux/todoSlice';
 
-const TodoList = () => {
-    const todos = useStore((state) => state.todos);
-    const fetchTodos = useStore((state) => state.fetch);
-
+export const TodoList = () => {
+    const dispatch = useDispatch();
+    const todos = useSelector((state) => state.todos);
     useEffect(() => {
-        fetchTodos();
-        console.log(todos);
-    }, [])
+        dispatch(getTodosAsync());
+    }, [dispatch])
 
     return (
         <ul>
-            {todos.map((todo) => (
+            {todos.map((todo, index) => (
                 <TodoItem
-                    key={todo.id}
+                    key={index}
                     id={todo.id}
-                    text={todo.text}
+                    title={todo.title}
                     completed={todo.completed}
                 />
             ))}
         </ul>
     )
 }
-
-export default TodoList

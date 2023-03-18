@@ -1,25 +1,25 @@
-import React, { useRef } from 'react';
-import useStore from '../zustand/store';
+import React, {useState} from 'react'
+import { useDispatch } from 'react-redux';
+import { addTodoAsync } from '../redux/todoSlice';
 
-const AddTodoForm = () => {
-  const inputRef = useRef();
-  const addTodos = useStore((state) => state.addTodo);
-  const addTodo = () => {
-    addTodos(inputRef.current.value);
-    inputRef.current.value = '';
+export const AddTodoForm = () => {
+  const [task, setTask] = useState("");
+  const dispatch = useDispatch();
+  const submitHandler = (e) => { 
+    e.preventDefault();
+    dispatch(addTodoAsync({
+      title: task,
+    }));
+    setTask("");
   };
-  
+
   return (
     <div>
-      <h1>Todo List</h1>
-      <p>Add a New Todo</p>
-      <form>
-        <input type="text" placeholder='Enter Todo' ref={inputRef} />
-        <br />
-        <button type='submit' onClick={addTodo}>Add It!</button>
+      <form onSubmit={submitHandler}>
+        <input type="text" placeholder='enter task' onChange={(e) => setTask(e.target.value)} value={task}/>
+        <button type='submit'>add</button>
       </form>
     </div>
   )
+  
 }
-
-export default AddTodoForm
