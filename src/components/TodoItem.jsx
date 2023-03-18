@@ -1,30 +1,21 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { toggleCompleteAsync, deleteTodoAsync } from '../redux/todoSlice';
+import useStore from '../zustand/store';
 
-const TodoItem = ({ id, title, completed }) => {
-    const dispatch = useDispatch();
-
-    const handleCompleteClick = () => {
-        dispatch(toggleCompleteAsync({ id, completed:!completed }));
-    };
-
-    const handleDeleteClick = () => {
-        dispatch(deleteTodoAsync({ id }))
-    };
+const TodoItem = ({ id, text, completed }) => {
+    const deleteTodo = useStore((state) => state.deleteTodo);
+    const completeTodo = useStore((state) => state.completeTodo);
 
     return (
         <li>
             <div>
-                <span>
-                    <input
-                        type="checkbox"
-                        checked={completed}
-                        onChange={handleCompleteClick}
-                    />
-                    {title}
-                </span>
-                <button onClick={handleDeleteClick}>Delete</button>
+                <input
+                    className='todoItem'
+                    type="checkbox"
+                    checked={completed}
+                    onChange={() => completeTodo(id)}
+                />
+                {text}
+                <button onClick={() => deleteTodo(id)}>Delete</button>
             </div>
         </li>
     )
